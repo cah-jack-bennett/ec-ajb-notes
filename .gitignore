@@ -1,0 +1,11 @@
+.DS_Store
+.env
+.mypy_cache/
+.vscode/
+/build/
+/dataresource/logs/
+/ec_data_resource.egg-info/
+/seed_output
+/tests/e2e/seed_output
+/venv
+__pycache__/
