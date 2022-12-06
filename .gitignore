@@ -9,3 +9,4 @@
 /tests/e2e/seed_output
 /venv
 __pycache__/
+.idea/workspace.xml
