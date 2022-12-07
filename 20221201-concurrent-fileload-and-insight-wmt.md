@@ -155,9 +155,10 @@ Terminology
 
 * What is the situation with `MemberRepository.masterdata.approvalRepositoryPatient`? It is the only `MemberRepository` table written by Insight?
   * Nothing in fileload writes to it
-  * Some code in fileload reads this tbale.
+  * Some code in fileload reads this table.
   * Is it a subset of `repositorypatient` table that is to be pushed on a given day?
   * Why is it in `masterdata` schema? Seems to be Insight "writing back" into `MemberRepository` (atypical pattern)
+  * `fileRepository-insightprocess` truncates this table and then inserts data into it (this runs in `run_insightPushPolicies.py` - step 3 of `GR_Insight_Config`)
 
 * Cards to create (WOOF and GROWL, depending on repo and scope)
   * Refactor `fileRepository-fileload` to have all instances of database name literals gone, replaced by env variable name or command line argument
@@ -168,6 +169,33 @@ Terminology
   * Temporary: use Sam's Club data - copy tables and data into database set B to play with it
   * Manual testing of Insight and Fileload on Stage-PHI (test branches from command line)
   * Upgrade EC2 hardware / instance type (is this even a GROWL/WOOF card?)
+
+---
+## 20221207 - T4/WMT activities
+
+### What are the next actions?
+* Create new cards
+* Code review the code for needed changes (fileload, insight, etc)
+
+### Tasks to convert into new cards (GROWL or WOOF)
+* Test new databases MemberRepository_B and OutcomesIdentification_B (get more specific - test WHAT?)
+  * Reconcile tables (schemas, contents, etc) between A set (original) and B set (Walmart-specific)
+  * Reconcile stored procedures and other database objects between A set (original) and B set (Walmart-specific)
+* Develop scripts to rebuild tables and other database objects on MemberRepository_B and OutcomesIdentification_B
+* Test load sample file data (Walmart) into new "B" databases/tables (PUP_fileload)
+* Test run Insight process on data loaded in new "B" databases/tables (GR_Insight_Process)
+* Enable command line argument on fileload script(s) to select database set (A, B)
+* Enable command line argument on insight script(s) to select database set (A, B)
+
+
+### Questions and comments
+* What about tables that were created/loaded long ago and their origin is lost or unknown? i.e. look up tables, etc. Created with one-off manual commands and not repeatable migrations?
+* Flip side - what about no longer used tables? (left over, etc) ... can we purge them?
+* How do we duplicate a database?
+
+* Create some more cards this afternoon, flesh out the existing ones
+
+
 
 ---
 # Appendix: Progress notes to VH
@@ -182,3 +210,12 @@ Terminology
   * Brief discussion with Demetrius about Insight in the context of Walmart changes
   * Need to check a few more things but I think I have most of the tables that are updated. I also need to add in tables that are read/accessed but not changed.
   * Related to this: do you think there’s any advantage from using a reduced set of tables (compared to the existing tables in `MemberRepository` or `OutcomesIdentification`) or does that add complexity with no benefit. It looks like `PUP_fileload` writes to both `MemberRepository` as well as `OutcomesIdentification` while `GR_Insight_Process` writes to mostly `OutcomesIdentification` tables but also a couple of `Outcomes` schema tables and one `MemberRepository` table (I want to check that last one - it seemed strange to me, but it is in there in the Insight code).
+* **2022-12-06**
+  * Work with Dale and Tracy to set up new "database set" (pair of DBs `MemberRepository_B` and `OutcomesIdentification_B`) on new EBS volume on Stage-PHI `ING02` host. Start experimenting with new database (may be blocked by Admin access; requested this access from CoreDM through SailPoint)
+  * Write up several new cards (both GROWL and WOOF - GROWL-3645, GROWL-3646, GROWL-3647, WOOF-4222 ) for tasks to be done to make the new fileload/insight runs possible. Brainstorm more cards (noted but not created yet).
+  * Additional investigation of why and how Insight writes data back into `MemberRepository.masterdata.approvalRepositoryPatient`
+  * Code review in `fileRepository-fileload` and `fileRepository-insightprocess` of where we would need to make changes and factor out any occurrences of literal database name strings
+* **2022-12-07**
+  * Continue reviews of fileload and insight code for multi-database capability
+  * Start trying out interactive commands in "B" set databases (MemberRepository and InsightProcess)
+  * Notes for several new WOOF/GROWL card titles and descriptions (created the cards now; still need to populate the descriptions with cleaned up notes) 
