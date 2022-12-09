@@ -186,14 +186,45 @@ Terminology
 * Test run Insight process on data loaded in new "B" databases/tables (GR_Insight_Process)
 * Enable command line argument on fileload script(s) to select database set (A, B)
 * Enable command line argument on insight script(s) to select database set (A, B)
-
+* Evaluate the migrations for database literals ... (???)
 
 ### Questions and comments
 * What about tables that were created/loaded long ago and their origin is lost or unknown? i.e. look up tables, etc. Created with one-off manual commands and not repeatable migrations?
 * Flip side - what about no longer used tables? (left over, etc) ... can we purge them?
-* How do we duplicate a database?
+* How do we duplicate a database? Copy it table by table, object by object. How do we know we have everything there?
+* The "B" tables will not get overwritten by prod yet... (none existing on prod)
+* Will new and/or larger hosts be able to handle the load? (1.2M Rx records per day)
+* Unknowns:
+  * How do we build/copy all the tables programmatically? Then truncate them. I guess we see what is there in docker to assemble the test instances?
+  * Would we use `restore.sql` and restore from the `.bak` database files?
+  * Possible methodology - follow what we do in Docker. Restore from `.bak` files and then truncate (?) all the tables. Apply the migrations?
+  * What if db migrations contain literal references to `MemberRepository` or `OutcomesIdentification`? (can these be templated the same way as we are going to do with the regular code?)
+  * Migrations are different between `fileRepository-fileload` and `fileRepository-insightprocess` ... does that mean we have to work on `ec-data-resource` as well for the migrations?
 
-* Create some more cards this afternoon, flesh out the existing ones
+---
+## 2022-12-08 - T4/WMT activities
+
+### Questions and notes
+* How do we deal with migrations in the various repos? Migrations are a big issue and a major risk.
+* Not just `fileRepository-fileload` and `fileRepository-insightprocess` ... there is also `ec-data-resource` and many others. A conversion of all instances of `MemberRepository` and `OutcomesIdentification` to variables `MEMBER_REPOSITORY_DB` and `OUTCOMES_IDENTIFICATION_DB` is needed in multiple repositories.
+* Risk of transition on the same `ING02` host versus creating the new host `ING03` - clean slate and unchanged codebase is good.
+
+---
+## 2022-12-09 - T4/WMT activities
+
+### Questions and notes
+* I am not sure what the priority is right now.
+  * I don't seem to have urgent tasks or coding work since we don't know exactly what we're doing. Proposing `ING03` and going to install Windows, SQL Server, etc. Totally separate server.
+  * Given this, what is the most valuable use of my time right now?
+  * I can dive into some devops activities and deployment.
+  * Udemy courses for Ansible, Jenkins, Terraform, Kubernetes, etc.
+  * "If I had six months to become a DevOps guru, what steps would I take?"
+
+* Possible activities for `ING03` and WMT transition
+
+* Adapt several cards in anticipation of the `ING03` dedicated host transition in place of the database split
+* Evaluate what might be needed in terms of deployment (Jenkins, etc)
+* Pivot code analysis to what would be needed to operate on a different host with the same database name(s) rather than the same host with different database names  
 
 
 
@@ -218,4 +249,13 @@ Terminology
 * **2022-12-07**
   * Continue reviews of fileload and insight code for multi-database capability
   * Start trying out interactive commands in "B" set databases (MemberRepository and InsightProcess)
-  * Notes for several new WOOF/GROWL card titles and descriptions (created the cards now; still need to populate the descriptions with cleaned up notes) 
+  * Notes for several new WOOF/GROWL card titles and descriptions (created the cards now; still need to populate the descriptions with cleaned up notes)
+* **2022-12-08**
+  * Finalize text of GROWL/WOOF cards for separate Walmart OutcomesIdentification and MemberRepository databases; present and review cards in Client Ops and EC Walmart Readiness meeting. 
+  * Investigate CMJ, job location, code location, and other relevant parameters.
+  * Continue code reviews + experiments with `fileRepository-fileload` and `fileRepository-insightprocess` to add externally addressable databases.
+  * Rising concern about risks of migrations breaking for multiple repositories (fileload, insight, as well as `ec-data-resource` and several others).
+*  **2022-12-09**
+  * Adapt several cards in anticipation of the `ING03` dedicated host transition in place of the database split
+  * Evaluate what might be needed in terms of deployment (Jenkins, etc)
+  * Pivot code analysis to what would be needed to operate on a different host with the same database name(s) rather than the same host with different database names
