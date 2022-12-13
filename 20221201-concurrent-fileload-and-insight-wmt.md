@@ -226,6 +226,30 @@ Terminology
 * Evaluate what might be needed in terms of deployment (Jenkins, etc)
 * Pivot code analysis to what would be needed to operate on a different host with the same database name(s) rather than the same host with different database names  
 
+---
+## 2022-12-12 - T4/WMT activities
+
+### Questions and notes
+* Fundamental question: what is the most valuable use of my time right now? (aka "please tell me what to do!")
+
+* TODO
+  * Complete cards today for `ING03` pivot of cards (former cards)
+  * Cards for me and Dale
+  * Leverage pre-existing knowledge of `ING02` cards ... recap and review
+  * Summary: generate cards for `ING03`
+  * No need to worry about CMJ for `ING03` because it doesn't run there, it runs on `SQL01`
+
+### Actions and cards needed
+* GR Log in to `ING03` and run commands on `git-bash`; check out repos on `ING03` and get dev environments up and running - as named user(s) (Jack 2022-12-12)
+* GR Test out basic operation, access, etc of the migrated `MemberRepository` and `OutcomesIdentification` databases on `ING03`; manual test (command line) of `insight` and `fileload` runs on `ING03` (Jack 2022-12-12)
+* GR Create and test Jenkins job for deploying `insight` to `ING03` (Dale 2022-12-09)
+* GR Investigate code changes needed in `insight` for operation on `ING03` (Jack 2022-12-12)
+* GR Clean out new databases on ING03 (migrated) from `ING02` - existing tables need to be truncated, etc (Dale 2022-12-09)
+* GR Add required config table data for test Walmart onboarding - fileload config, client config, other stuff? (baseline config to ingest data for a client) (Jack 2022-12-12)
+* GR Add, configure, update daily SQL Server Agent jobs to `ING01` to run on `ING03` (PUP_fileload, GR_Insight_Process, etc) (Jack 2022-12-12)
+* GR Add observability and external logging for `ING03` - transmitting logs to ELK, Slack alerts, etc (Jack 2022-12-12)
+* PUP Create and test Jenkins job for deploying `fileload` to `ING03` (NOT NEEDED)
+* PUP Investigate code changes needed in `fileload` for operation on `ING03` (Jack 2022-12-12)
 
 
 ---
@@ -259,3 +283,6 @@ Terminology
   * Adapt several cards in anticipation of the `ING03` dedicated host transition in place of the database split
   * Evaluate what might be needed in terms of deployment (Jenkins, etc)
   * Pivot code analysis to what would be needed to operate on a different host with the same database name(s) rather than the same host with different database names
+* **2022-12-12**
+  * Add several new cards and descriptions for `ING03` actions (`GROWL-3667`, `GROWL-3668`, `GROWL-3669`, `GROWL-3670`, `GROWL-3671`, `WOOF-4253`)
+  * Revise and add to the descriptions of cards Dale and I came up with on Friday (`GROWL-3661`, `GROWL-3662`, `GROWL-3663`, `GROWL-3664`)
