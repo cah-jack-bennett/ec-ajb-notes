@@ -251,6 +251,42 @@ Terminology
 * PUP Create and test Jenkins job for deploying `fileload` to `ING03` (NOT NEEDED)
 * PUP Investigate code changes needed in `fileload` for operation on `ING03` (Jack 2022-12-12)
 
+---
+## 2022-12-12 - T4/WMT activities
+
+### Questions and notes
+* What comes next today on the `ING03/T4/WMT` project 2022-12-13?
+* What new cards are needed?
+* Gave Angie a sitrep of the current status of the `ING03`/WMT project
+  * Meeting planned with Ricardo and Tracy
+  * Questions about CMJ from AS
+  * Reported out the cards created, transition from "Plan-B" project to "Plan-3" project
+  * WITMVUOMTRN? Focus on WMT/`ING03` naturally ...
+* Transition to "Plan-3" from "Plan-B" means:
+  * We don't have to change a million database definitions in code (although we should do that anyway). Also: MIGRATIONS 😬
+  * We don't have other test/prod jobs competing on these hosts - performance testing can be more reliable.
+  * Lower technical risk at the cost of higher up-front financial investment
+  * We DO need to add in the ability to refer to database host `AOCWSAPING03` (stage), `AOCWPAPING03` (prod) (cards created) 
+
+### Themes and focus areas ⬇️
+  * Infrastructure
+    * AWS, EC2, deployment, backups, runbooks, practices, etc
+  * Database
+    * Reconstruction of tables, copy them in, etc
+  * Configuration (Customer)
+    * What is in files versus what is in database tables?
+    * What do we need to write/create for WMT?
+  * Testing
+    * Local, Stage-PHI, prod-pre-production.
+    * When does usable test data land?
+    * Can we work with Sam's Club test data to get out ahead of things? (same input schema for client files)
+  * *Minimum Effective Dose* - leverage, automation, change as little code as possible to get the necessary effect.
+
+* Completed part of WOOF-3671 - updated `ec-data-resource` and `ec-config-package` which are dependencies of several Growlers repos. Added config that will select the correct `ING03` when operating on that server.
+* Where do the Python scripts run? It looks like they run on `ING01` but hit databases on `ING02` ... but the Python scripts look at the localhost to determine where they are. This is confusing.
+
+
+
 
 ---
 # Appendix: Progress notes to VH
@@ -286,3 +322,7 @@ Terminology
 * **2022-12-12**
   * Add several new cards and descriptions for `ING03` actions (`GROWL-3667`, `GROWL-3668`, `GROWL-3669`, `GROWL-3670`, `GROWL-3671`, `WOOF-4253`)
   * Revise and add to the descriptions of cards Dale and I came up with on Friday (`GROWL-3661`, `GROWL-3662`, `GROWL-3663`, `GROWL-3664`)
+* **2022-12-13**
+  * Completed some work and drafted PRs on of WOOF-3671 - updated `ec-data-resource` and `ec-config-package` which are dependencies of several Growlers repos. Added config that will select the correct `ING03` when operating on that server.
+  * Created card `GROWL-3672` to address the issue of where the Python scripts run from. (Existing scripts launch from SQL Server Agent on `ING01` and hit databases on `ING02` ... this raises some questions about the Python environments.)
+  * Met w/ Ricardo and Tracy to clarify our intentions for the database objects in the new `ING03.MemberRepository` and `ING03.MemberRepository` 
