@@ -252,7 +252,7 @@ Terminology
 * PUP Investigate code changes needed in `fileload` for operation on `ING03` (Jack 2022-12-12)
 
 ---
-## 2022-12-12 - T4/WMT activities
+## 2022-12-13 - T4/WMT activities
 
 ### Questions and notes
 * What comes next today on the `ING03/T4/WMT` project 2022-12-13?
@@ -285,7 +285,14 @@ Terminology
 * Completed part of WOOF-3671 - updated `ec-data-resource` and `ec-config-package` which are dependencies of several Growlers repos. Added config that will select the correct `ING03` when operating on that server.
 * Where do the Python scripts run? It looks like they run on `ING01` but hit databases on `ING02` ... but the Python scripts look at the localhost to determine where they are. This is confusing.
 
+---
+## 2022-12-13 - T4/WMT activities
 
+### Questions and notes
+* Waiting for Ricardo to complete the database transition on `ING03`
+* Continuing work on `GROWL-3671` - reviewing the repositories for any unexpected dependencies 
+* Continuing work on `GROWL-3672` - evaluating different approaches to run the `ING03` jobs
+* Starting to take a look at `WOOF-4253` - the same review on `fileRepository-fileload` and other ClientOperations repos
 
 
 ---
