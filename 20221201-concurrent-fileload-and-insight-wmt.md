@@ -286,7 +286,7 @@ Terminology
 * Where do the Python scripts run? It looks like they run on `ING01` but hit databases on `ING02` ... but the Python scripts look at the localhost to determine where they are. This is confusing.
 
 ---
-## 2022-12-13 - T4/WMT activities
+## 2022-12-14 - T4/WMT activities
 
 ### Questions and notes
 * Waiting for Ricardo to complete the database transition on `ING03`
@@ -294,6 +294,24 @@ Terminology
 * Continuing work on `GROWL-3672` - evaluating different approaches to run the `ING03` jobs
 * Starting to take a look at `WOOF-4253` - the same review on `fileRepository-fileload` and other ClientOperations repos
 
+---
+## 2022-12-15 - T4/WMT activities
+
+### Questions and notes
+* Work on `WOOF-4253` - find where the db name is hardcoded in `fileRepository-fileload`
+* I can't find any references to `ING02` in migrations on `fileRepository-fileload`. Am I insane?
+* Goals for today include push on `WOOF-4253` and `GROWL-3672`
+* Work on experiment with changing the ordering of `PUP_fileload_audit` (which launches `PUP_fileload`), placing it after completion of `GR_Insight_Identification`
+
+---
+## 2022-12-16 - T4/WMT activities
+
+### Questions and notes
+* Communicating these bullet reports to `#insight-brainstorming`
+* Coordinate with Vedu about these comms
+* What's the next action here?
+* Submit Sailpoint / self-serve request 1091845 for access - group `gLGS-SQLDDLAdminsOCINGP` hits `ING01` (I think I only had `ING02`)
+* Timing of jobs - any effects due to the changes in ordering put in place last night? None are visible.
 
 ---
 # Appendix: Progress notes to VH
@@ -332,4 +350,9 @@ Terminology
 * **2022-12-13**
   * Completed some work and drafted PRs on of WOOF-3671 - updated `ec-data-resource` and `ec-config-package` which are dependencies of several Growlers repos. Added config that will select the correct `ING03` when operating on that server.
   * Created card `GROWL-3672` to address the issue of where the Python scripts run from. (Existing scripts launch from SQL Server Agent on `ING01` and hit databases on `ING02` ... this raises some questions about the Python environments.)
-  * Met w/ Ricardo and Tracy to clarify our intentions for the database objects in the new `ING03.MemberRepository` and `ING03.MemberRepository` 
+  * Met w/ Ricardo and Tracy to clarify our intentions for the database objects in the new `ING03.MemberRepository` and `ING03.MemberRepository`
+* **2022-12-14**
+  * Waiting for Ricardo to complete the database transition on `ING03`
+  * Continuing work on `GROWL-3671` - reviewing the repositories for any unexpected dependencies 
+  * Continuing work on `GROWL-3672` - evaluating different approaches to run the `ING03` jobs
+  * Starting to take a look at `WOOF-4253` - the same review on `fileRepository-fileload` and other ClientOperations repos
