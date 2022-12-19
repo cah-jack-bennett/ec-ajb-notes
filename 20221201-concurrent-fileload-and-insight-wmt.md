@@ -310,8 +310,41 @@ Terminology
 * Communicating these bullet reports to `#insight-brainstorming`
 * Coordinate with Vedu about these comms
 * What's the next action here?
-* Submit Sailpoint / self-serve request 1091845 for access - group `gLGS-SQLDDLAdminsOCINGP` hits `ING01` (I think I only had `ING02`)
+* Submit Sailpoint / self-serve request 1091845 for access - group `gLGS-SQLDDLAdminsOCINGP` hits `ING01` (I think I only had `ING02` ... so I DO have access on `ING03`)
 * Timing of jobs - any effects due to the changes in ordering put in place last night? None are visible.
+* The fears about the new server are less about financial cost and more about impact/risk on CMJ and what happens if a new Step breaks it (how is CMJ operating on Staging?)
+  * New step in CMJ would be due to retrieving data from `ING03` as well as `ING02`
+* What can I do now in `ING03`? Translate SQL Server Agent jobs over?
+* Migrating SQL Server Agent jobs from one host to another
+  * (1) script the jobs to an editor window
+  * (2) save to file
+  * (3) copy the files to the new host
+  * (4) create the jobs from the SQL files (just run the SQL directly to create the jobs)
+* This sounds awful and I am wondering if there is an easier way to do this...
+* At least we can concatenate all the files and run it all at once!
+* Do I mirror the jobs from `prod` or `stage-PHI`?
+* What have I confirmed today?
+  * I am able to create and destroy SSA jobs on `ING03` (stage)
+  * I can try to run SSA jobs on `ING03`
+  * No underlying (Python) code is present yet on `ING03` to be able to run ... this must be deployed by Jenkins
+
+---
+## 2022-12-16 - T4/WMT activities
+
+### Questions and notes
+* Focus this week: run Walmart policy push AND a regular policy push through `ING02` (stage) 
+  * Test out how this operates in a real performance scenario with realistic data (real Walmart test data?)
+  * See if it is delayed, slowed down, etc.
+  * What do the numbers look like?
+  * Dependencies:
+    * Walmart test data - real files (whom do I need to ask for this and when can we get it?)
+    * Walmart config install and setup on `ING02` (stage) - client config, etc
+* Procedure:
+  * (1) push ALL regular policies (same list as on prod)
+  * (2) add in Walmart policies and data - load files, push policies
+  * (3) analyze and evaluate what happened after the fact - timing, etc
+
+
 
 ---
 # Appendix: Progress notes to VH
@@ -356,3 +389,16 @@ Terminology
   * Continuing work on `GROWL-3671` - reviewing the repositories for any unexpected dependencies 
   * Continuing work on `GROWL-3672` - evaluating different approaches to run the `ING03` jobs
   * Starting to take a look at `WOOF-4253` - the same review on `fileRepository-fileload` and other ClientOperations repos
+* **2022-12-15**
+  * `WOOF-4253` - find where the db name is hardcoded in `fileRepository-fileload` and adapt this to multiple server names
+  * `GROWL-3672` - decision to use new server `ING03` for SQL Server Agent operation, Python environments, and Python processes in addition to SQL operations
+  * Experiment with changing the ordering of `PUP_fileload_audit` task (which launches `PUP_fileload` itself), placing it after completion of `GR_Insight_Identification`. We expect to have some data on this tomorrow since it will run overnight.
+* **2022-12-16 updates**
+  * Analysis of first set of results from recent reordering of SQL Server Agent jobs
+  * Migrate several SQL Server Agent jobs to `ING03` host and testing (`GROWL-3669`)
+  * Work on Jenkins jobs for deployment of `fileRepository-fileload` and `fileRepository-insightprocess` to `ING03` (`GROWL-3663`)
+* **2022-12-19 updates**
+  * Develop workflow and method to run Walmart policy push AND a regular policy push through `ING02` (stage)
+  * Continue to run and analyze reordered production process with `PUP` and `GR` jobs
+  * Meet and discuss process for interleaving Walmart file ingest with idle time on `PUP_fileload` (notes in `GROWL-3676`)
+
