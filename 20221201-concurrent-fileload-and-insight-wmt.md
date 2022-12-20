@@ -329,7 +329,7 @@ Terminology
   * No underlying (Python) code is present yet on `ING03` to be able to run ... this must be deployed by Jenkins
 
 ---
-## 2022-12-16 - T4/WMT activities
+## 2022-12-19 - T4/WMT activities
 
 ### Questions and notes
 * Focus this week: run Walmart policy push AND a regular policy push through `ING02` (stage) 
@@ -344,7 +344,26 @@ Terminology
   * (2) add in Walmart policies and data - load files, push policies
   * (3) analyze and evaluate what happened after the fact - timing, etc
 
+---
+## 2022-12-20 - T4/WMT activities
 
+### Questions and notes
+* Hypothesis: "It will be okay to run Walmart data on an upgraded `ING02` because we have the idle time window between 0100-0700 (approx) where `PUP_fileload` is delaying"
+* Questions about the hypothesis:
+  * What happens when a "big day" (Walmart + CVS, for example) happens on day T and then it all hits Insight on T+1?
+  * Approval process for the big day policies?
+* What do I need to do in order to push Walmart policies TODAY?
+  * Walmart data set - file(s) to load manually.
+  * Config information for Walmart - fileconfigload, clientID, policy IDs, policy mapping(s), etc. What am I forgetting?
+  * Configure Walmart as a client on StagePHI to be able to load files and push policies
+  * Push new Walmart policies alongside the SAME set of policies pushed in prod to load StagePHI as hard as possible. (No reduced set of 11 policies or whatever.)
+
+* What next?
+  * Notes from Pravin about EC2 instances and upgrades
+    * Upgrade from `r3` to `r6` instances (`ING02`).
+    * Upgrade disk type from `gp3` to `io1` - doubles peak IOPS from 16k/s to 32k/s (`ING02`).
+    * Upgrade CPU count from 32 -> 48 (`ING02`).
+    * What is the marginal cost of upgrading the SQL Server license for this?
 
 ---
 # Appendix: Progress notes to VH

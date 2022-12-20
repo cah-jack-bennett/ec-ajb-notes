@@ -1,0 +1,68 @@
+----------------------------------------------------------------
+Adding Jack
+ 
+From: Valladares, Ricardo <ricardo.valladares@cardinalhealth.com>
+Date: Monday, December 12, 2022 at 4:15 PM
+To: Elsinger, Tracy <tracy.elsinger@cardinalhealth.com>
+Subject: Please review DB [MemberRepository] in new server [AOCWSAPING03]
+
+Tracy,
+ 
+Server = AOCWSAPING03
+DB = [MemberRepository]
+ 
+I have created this DB [MemberRepository] in new server. Before I do anything else, I’d like to have you review it and let’s make sure I understand the request.
+It’s an empty DB, meaning no tables, no views were created.  I wonder if they want us to create the table structure, but with no data (just thinking out loud)? … let’s verify with requestor.
+ 
+DB objects created:
+Database Roles
+Users  but only if it has a corresponding Login at the server level (no SQL Authenticated users created)
+Schemas
+User Defined Table Types
+ 
+DB Object NOT Created:
+Tables
+Views
+Stored Procedures
+User Defined functions
+ 
+Please let me know your feed back.  If it all looks good, I can also take care of the other DB [OutcomesIdentification]
+ 
+Ricardo Valladares
+SQL Server DBA - FUSE
+
+----------------------------------------------------------------
+
+Team,
+ 
+Server = [aocwSaping03]
+DBs:
+[MemberRepository]
+[OutcomesIdentification]
+ 
+These 2 DBs have been migrated from server [aocwSaping02] -> [aocwSaping03].
+ 
+DB objects created:
+* Tables   <- except for Backup tables such as [dbo].[flyway_schema_history_bkp_20190819]
+* Views    <- except for Backup views
+* Stored Procedures <- except for backup SP
+* User Defined functions
+* Database Roles
+* Users <- but only if it has a corresponding Login at the server level (no SQL Authenticated users because we don’t have its password)
+* Schemas
+* User Defined Table Types
+ 
+My comments:
+
+* A few DB objects were not migrated, because they are currently invalid in ING02, for example:
+
+DB [MemberRepository]
+View  = [ZZZ___snapshot_prescriptionRepository] has an invalid column name ‘repositoryRxNumberID’.
+Because of the invalid column that is being used inside this View, it is invalid in current DB and wasn’t migrated to new DB.
+ 
+Jack,
+Please review with your team, and let me know, if you have any questions.
+ 
+Ricardo Valladares
+SQL Server DBA
+CoreDM Team - Fuse
