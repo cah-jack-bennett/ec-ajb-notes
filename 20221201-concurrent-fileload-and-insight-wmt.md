@@ -365,8 +365,32 @@ Terminology
     * Upgrade CPU count from 32 -> 48 (`ING02`).
     * What is the marginal cost of upgrading the SQL Server license for this?
 
+* What do I do until we get data from Vandelay and then Airbud?
+  * Still need access for group `gLGS-SQLDDLAdminsOCINGR` (`ING01` admin capability to edit SSA jobs)
+  * Write conops, etc.
+
 ---
-# Appendix: Progress notes to VH
+## 2022-12-21 - T4/WMT activities
+
+### Questions and notes
+* Reorganize timing data and add Prod and Stage-PHI data into the pre-existing spreadsheet
+* Continue performance testing during upgrade of `ING02` EBS volumes from `gp3` to `io1` disk types
+
+---
+## 2022-12-22 - T4/WMT activities
+
+### Questions and notes
+* Continue evaluating timing data - log in the appropriate spreadsheet.
+* Continue running tests on Stage-PHI `ING01/02` to stay busy and give the impression of urgent action.
+* Continue to wait for WMT data from Vandelay.
+* Mirror policy push actions from 2022-12-21 for test on Stage-PHI
+* Check job timings before Stage-PHI rollover
+
+
+
+
+---
+# Appendix: Progress notes to team (#insight-brainstorming)
 
 * **2022-12-02**
   * Met with Dale and Tracy about provisioning the new EBS volumes and new databases on top of those volumes.
@@ -420,4 +444,12 @@ Terminology
   * Develop workflow and method to run Walmart policy push AND a regular policy push through `ING02` (stage)
   * Continue to run and analyze reordered production process with `PUP` and `GR` jobs
   * Meet and discuss process for interleaving Walmart file ingest with idle time on `PUP_fileload` (notes in `GROWL-3676`)
-
+* **2022-12-20 updates**
+  * `GROWL-3680` for updating test environment (SQL Server Agent jobs) on `ING01` Stage-PHI
+  * Ongoing baseline testing and timing data collection of `PUP_*` and `GR_*` jobs in Prod and Stage-PHI (`GROWL-3676` and others)
+  * Ongoing efforts to get Walmart test data into the hands of Client Operations and Eligibility Central for realistic performance testing
+*  **2022-12-22 updates**
+  * Continue running test runs of `PUP_*` and `GR_*` jobs on Stage-PHI while monitorong progress of disk (EBS volume) upgrades
+  * Puppers received data from Vandelay but have some concerns about date representations in one of the fields that is not parseable as a date
+  * Harmonize workflow order on Stage-PHI to mirror the same order as we have on Prod
+  * Continue tracking job timings on Prod for comparison between "normal push" and "normal push + Walmart data"
