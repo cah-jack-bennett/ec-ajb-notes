@@ -386,8 +386,44 @@ Terminology
 * Mirror policy push actions from 2022-12-21 for test on Stage-PHI
 * Check job timings before Stage-PHI rollover
 
+---
+## 2022-12-23 - T4/WMT activities
+
+### Question and commentary I sent to Dale and Jonathan. 
+OK, here’s a dumb question (along with a lot of editorial commentary:
+If the anticipated 1.2M patient records per day gets filtered down to 30K patient records per day after qualification of the patients and removing those who qualify for zero programs …
+Do we need all this infrastructure investment and improvement for “only” 30K patients?
+(I know this is one single data point and may not be typical … but if that’s the case, then I wonder what would be typical. Averages, distributions, spikes, etc. There are two variable numbers in here - N, the initial patient number, and q, the fraction remaining after qualification.)
+
+Looking at what changes are proposed/happening:
+The updating of the EC2 instance types (r3 :arrow_right: r6) is likely long overdue. r3 are 2014 state-of-the-art instances.
+Same thing with the EBS volume types - we are bumping up against the IOPS limits so it makes perfect sense to migrate from the gp3:arrow_right: io1.
+But … if it is at all typical for the qualification to shrink down a patient population of 1.2M by 40x (i.e. N=1.2M, q=0.025), then I strongly suspect we do not need to worry about bigger and more complex infrastructure upgrades right now (e.g. adding ING03).
+
+What do you guys think?
+
+### Questions and notes
+* If the shrinkage factor is 0.025 on a "typical" population of 1.2M, do we need this new infrastructure right now to handle the WMT pharma program?
+* How do I load the appropriate files on Stage-PHI? I have a naive approach.
+  1. Find the names of the files that were loaded on 2022-12-20
+  1. Stage all of those files by name on Stage-PHI
+  1. Load all of those files by their newly assigned `fileID` on Stage-PHI
+  1. Reconcile all of those files on Stage-PHI.
+* As of 0824: running into trouble with logging in on Stage-PHI. Not able to connect via RDS. Right before this, I ran into issues when logged in. where SSMS could not connect to `ING01` or `ING02`.
 
 
+### Action Plan for Walmart load (from Vedu)
+
+**2022-12-22**
+* Configure Stage-PHI `ING01` morning jobs in the same way as Prod `ING01`
+* As soon as `IO1` EBS volume conversion is finished
+  * First, start `GR_Insight_Config` with the first test run using policies (11-set)
+  * Next, start the second run with same policies immediately afterward.
+
+**2022-12-23**
+* Starting at 0700
+  * If WM files are available then add CVS (12/20 raw files) + all other files that were dropped on 12/20+Walmart
+  * Otherwise use CVS (12/20 raw files) + all other files to first go through FL, then policy push that was done on 12/21, and run Insight Config….
 
 ---
 # Appendix: Progress notes to team (#insight-brainstorming)
