@@ -410,7 +410,8 @@ What do you guys think?
   1. Load all of those files by their newly assigned `fileID` on Stage-PHI
   1. Reconcile all of those files on Stage-PHI.
 * As of 0824: running into trouble with logging in on Stage-PHI. Not able to connect via RDS. Right before this, I ran into issues when logged in. where SSMS could not connect to `ING01` or `ING02`.
-
+* 0928: Unfucked the connectivity issues (the usual FuseAD unlock thing)
+* Walmart: `clientID=279` and `policyID=1883`
 
 ### Action Plan for Walmart load (from Vedu)
 
@@ -424,6 +425,25 @@ What do you guys think?
 * Starting at 0700
   * If WM files are available then add CVS (12/20 raw files) + all other files that were dropped on 12/20+Walmart
   * Otherwise use CVS (12/20 raw files) + all other files to first go through FL, then policy push that was done on 12/21, and run Insight Config….
+
+---
+## 2022-12-27 - T4/WMT activities
+
+### Questions and notes
+* Loading the appropriate files on Stage-PHI - basic approach
+  1. Find the names of the files that were loaded in Prod on day T.
+  1. In the morning on day T+1, place all these files in the `.../incoming/` directory on Stage-PHI
+  1. Run `PUP_fileload` on Stage-PHI to stage and load the new files "received" on Stage-PHI
+  1. Push the same set of policies that we pushed on day T on Prod.
+  1. Start Insight with `GR_Insight_Config`
+  1. Need to verify with Jonathan about Walmart files. I think he can stage/load them at any time before morning of day T+1. (Confirmed: Jonathan has staged Walmart files 2022-12-27 afternoon)
+* The problem I saw before with staging the files was due to unconventional directory paths in my Stage-PHI environment. I fixed this and staging works normally now.
+* Generate the `file`,`fileConfigID` csv file from the database (Prod)
+* Copy all the relevant files to Stage-PHI.
+* Stage the files using `bowwow.py stage-file-batch $FILENAME.csv` with the list of files paired with the `fileConfigID` values
+* Get the files from Prod and copy to Stage-PHI. Strip off time stamps if I can (script it, just `cut` or whatever).
+* Report out this afternoon with a plan
+* Start early tomorrow morning to get files loaded and get `PUP_fileload` started before running Insight
 
 ---
 # Appendix: Progress notes to team (#insight-brainstorming)
