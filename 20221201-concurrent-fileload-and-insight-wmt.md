@@ -446,6 +446,30 @@ What do you guys think?
 * Start early tomorrow morning to get files loaded and get `PUP_fileload` started before running Insight
 
 ---
+## 2022-12-28 - T4/WMT activities
+
+### Questions and notes
+* Staging and loading the files on Stage-PHI went cleanly.
+* `PUP_fileload` started at 0704 and has run for almost 5h.
+* TODO: write down the exact steps for batch fileload staging, etc on Stage-PHI
+* Share with Ricardo some possible areas for database speedup.
+* Start digging into running CMJ on Stage-PHI
+
+---
+## 2022-12-29 - T4/WMT activities
+
+### Questions and notes
+* Sequence of the "replicate Prod jobs on Stage-PHI" test workflow. The following numbered process happens on day `T+1`.
+  1. Get the list of files that the system staged+loaded (automated) on day `T` on Prod.
+  2. Stage the files manually (`stage-file-batch`) on Stage-PHI.
+     * Move files from Prod to Stage-PHI, rename files without leading timestamps, stage from command line)
+     * For testing the "delta" from the baseline Prod job activity: stage the Walmart files that we want to load on Stage-PHI.
+  3. Start `PUP_fileload` on Stage-PHI to ingest (load) the same body of data as we ingested on Prod on day `T` ... *plus* the new Walmart files (the experimental part). (This will ingest the list of files that we just staged, plus the changes we are testing.)
+  4. After `PUP_fileload` completes, manually push the same policy list as on Prod for day `T+1` (Note: this is the list provided by Clinical on day `T+1` and is the *same* list that we push on Prod on day `T+1`.)
+  5. After the manual policy push, start `GR_Insight_Config` to start off the sequence of Insight jobs. The day `T+1` Insight jobs on Stage-PHI now parallel the day `T+1` Insight jobs on Prod (operating on same policies, data set, etc).
+  6. The associated CMJ on Stage-PHI that processes this same batch of data begins only after midnight on day `T+2`.
+
+---
 # Appendix: Progress notes to team (#insight-brainstorming)
 
 * **2022-12-02**
@@ -509,3 +533,13 @@ What do you guys think?
   * Puppers received data from Vandelay but have some concerns about date representations in one of the fields that is not parseable as a date
   * Harmonize workflow order on Stage-PHI to mirror the same order as we have on Prod
   * Continue tracking job timings on Prod for comparison between "normal push" and "normal push + Walmart data"
+*  **2022-12-27 updates*
+  * Review load and push of Walmart data from last week
+  * Run a standard benchmark run on `ING02` Stage-PHI after upgrade of EBS volumes (`gp3` -> `io1` disk type)
+  * Plan out next Walmart Fileload, policy push, and Insight test for 2022-12-28
+* **2022-12-28 updates**
+  * Stage "2022-12-27 file batch" on Stage-PHI host (same set of files as we loaded on Prod on that date) PLUS Walmart files 
+  * Run `PUP_fileload` early to ingest the full set of files (Prod batch + Walmart). (Had to start early due to large ingest.)
+  * Share with Ricardo some potential low-hanging database fruit in `PUP_fileload` and `GR_Insight_Process`
+  * Run `GR_Insight_Process` on ingested data
+  * Growlers team running Connect Maintenance Job on Stage-PHI
