@@ -469,6 +469,21 @@ What do you guys think?
   5. After the manual policy push, start `GR_Insight_Config` to start off the sequence of Insight jobs. The day `T+1` Insight jobs on Stage-PHI now parallel the day `T+1` Insight jobs on Prod (operating on same policies, data set, etc).
   6. The associated CMJ on Stage-PHI that processes this same batch of data begins only after midnight on day `T+2`.
 
+* Getting Walmart files from S3 (pairing with Jonathan)
+  * Need to configure AWS command line access
+    * https://cardinalhealth.atlassian.net/wiki/spaces/FIP/pages/131931903/AWS+Multi-Factor+Authentication+MFA
+    * https://cardinalhealth.atlassian.net/wiki/spaces/FIP/pages/874315794/User+Guide+to+new+2019+jump+hosts+access+RDS+and+Windows+subsystem+for+Linux+WSL#UserGuidetonew2019jumphostsaccess(RDS)andWindowssubsystemforLinux(WSL)-AWSS3access(fromjumphostordesktop)
+  * Copy files from s3 bucket to Stage-PHI jump host ... once you have them, you can stage them as normal.
+
+---
+## 2022-12-29 - T4/WMT activities
+
+### Questions and notes
+* Run tests without Walmart data today
+* Wait until `GR_Insight_Process` finishes from last night / this morning.
+* "Something" made `mrfileload.approval.approval_prep` take a lot longer last night. Database changes?
+
+
 ---
 # Appendix: Progress notes to team (#insight-brainstorming)
 
