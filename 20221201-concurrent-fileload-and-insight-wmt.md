@@ -473,15 +473,28 @@ What do you guys think?
   * Need to configure AWS command line access
     * https://cardinalhealth.atlassian.net/wiki/spaces/FIP/pages/131931903/AWS+Multi-Factor+Authentication+MFA
     * https://cardinalhealth.atlassian.net/wiki/spaces/FIP/pages/874315794/User+Guide+to+new+2019+jump+hosts+access+RDS+and+Windows+subsystem+for+Linux+WSL#UserGuidetonew2019jumphostsaccess(RDS)andWindowssubsystemforLinux(WSL)-AWSS3access(fromjumphostordesktop)
-  * Copy files from s3 bucket to Stage-PHI jump host ... once you have them, you can stage them as normal.
+  * Copy files from s3 bucket to Stage-PHI jump host ... once you have them, you can stage them using the standard procedure.
 
 ---
-## 2022-12-29 - T4/WMT activities
+## 2022-12-30 - T4/WMT activities
 
 ### Questions and notes
 * Run tests without Walmart data today
 * Wait until `GR_Insight_Process` finishes from last night / this morning.
 * "Something" made `mrfileload.approval.approval_prep` take a lot longer last night. Database changes?
+
+---
+## 2023-01-03 - T4/WMT activities
+
+### Questions and notes
+* Run tests WITH Walmart file data today
+  * Using Walmart files from 2022-12-28 (client timestamp)
+  * Staged 30 Prod files (loaded 2023-01-02 on Prod) and 3 Walmart files
+* Work futher on timings etc.
+* Python scripts to run on Windows hosts to retrieve and format timing data
+  * Hit `msdb` database on `AOCWSAPING01` - job timing data. All the jobs are run from `ING01`.
+  * Format the data into a pretty CSV, etc.
+  * Save time doing manual transcription.
 
 
 ---
